@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D4A312531BC851960087FF8C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312521BC851960087FF8C /* Cell.swift */; settings = {ASSET_TAGS = (); }; };
+		D4A312551BC85FB30087FF8C /* ViewRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312541BC85FB30087FF8C /* ViewRequestViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		D4AD62841BC3028800F4D6C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62831BC3028800F4D6C7 /* AppDelegate.swift */; };
 		D4AD62861BC3028800F4D6C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62851BC3028800F4D6C7 /* ViewController.swift */; };
 		D4AD62891BC3028800F4D6C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4AD62871BC3028800F4D6C7 /* Main.storyboard */; };
@@ -29,6 +31,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D4A312521BC851960087FF8C /* Cell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		D4A312541BC85FB30087FF8C /* ViewRequestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewRequestViewController.swift; sourceTree = "<group>"; };
 		D4AD62801BC3028800F4D6C7 /* Uber.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Uber.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4AD62831BC3028800F4D6C7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4AD62851BC3028800F4D6C7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +103,8 @@
 				D4AD62851BC3028800F4D6C7 /* ViewController.swift */,
 				D4AD62AE1BC3189300F4D6C7 /* RiderViewController.swift */,
 				D4AD62B01BC319BF00F4D6C7 /* DriverViewController.swift */,
+				D4A312541BC85FB30087FF8C /* ViewRequestViewController.swift */,
+				D4A312521BC851960087FF8C /* Cell.swift */,
 				D4AD62871BC3028800F4D6C7 /* Main.storyboard */,
 				D4AD628A1BC3028800F4D6C7 /* Assets.xcassets */,
 				D4AD628C1BC3028800F4D6C7 /* LaunchScreen.storyboard */,
@@ -197,7 +203,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4AD62B11BC319BF00F4D6C7 /* DriverViewController.swift in Sources */,
+				D4A312551BC85FB30087FF8C /* ViewRequestViewController.swift in Sources */,
 				D4AD62861BC3028800F4D6C7 /* ViewController.swift in Sources */,
+				D4A312531BC851960087FF8C /* Cell.swift in Sources */,
 				D4AD62AF1BC3189300F4D6C7 /* RiderViewController.swift in Sources */,
 				D4AD62841BC3028800F4D6C7 /* AppDelegate.swift in Sources */,
 			);
@@ -355,6 +363,7 @@
 				D4AD62941BC3028800F4D6C7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
