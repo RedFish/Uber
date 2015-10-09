@@ -16,12 +16,14 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 	@IBOutlet weak var map: MKMapView!
 	@IBOutlet weak var uberButton: UIButton!
 	let riderAnnotation = MKPointAnnotation()
+	let driverAnnotation = MKPointAnnotation()
 	var location = PFGeoPoint ()
+	var driverLocation = CLLocationCoordinate2D ()
 	var isCallingUber = false
+	var isDriverOnTheWay = false
 	
     override func viewDidLoad() {
 		super.viewDidLoad()
-		print("logged in as Rider")
 		
 		//initialize LocationManager
 		mapManager = CLLocationManager()
@@ -84,16 +86,69 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 		//Get the location
 		let userLocation:CLLocation = locations[0]
 		let coordinate = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude)
-		let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
+		var latDelta = 0.01
+		var lonDelta = 0.01
+		if isDriverOnTheWay {
+			latDelta = abs(driverLocation.latitude - coordinate.latitude) * 2 + 0.005
+			lonDelta = abs(driverLocation.longitude - coordinate.longitude) * 2 + 0.005
+		}
+		let span:MKCoordinateSpan = MKCoordinateSpanMake(latDelta, lonDelta)
 		let region:MKCoordinateRegion = MKCoordinateRegionMake(coordinate, span)
 		map.setRegion(region, animated: true)
 		
 		location = PFGeoPoint(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
 		
+		//get location of driver
+		if isCallingUber {
+			let query = PFQuery(className: "RiderRequest")
+			query.whereKey("username", equalTo: (PFUser.currentUser()?.username)!)
+			query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+				if error != nil {
+					print("Error finding RiderRequest")
+				}
+				else {
+					if let objects = objects {
+						for object in objects {
+							if object["driverResponded"] != nil {
+								if let driverResponded = object["driverResponded"] as? String {
+									let queryUser = PFUser.query()
+									queryUser?.whereKey("username", equalTo: driverResponded)
+									queryUser?.findObjectsInBackgroundWithBlock({ (drivers, error) -> Void in
+										if error == nil {
+											if let drivers = drivers {
+												for driver in drivers {
+													if let driverLocation = driver["driverLocation"] as? PFGeoPoint {
+														let location = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
+														self.driverLocation = CLLocationCoordinate2DMake(driverLocation.latitude, driverLocation.longitude)
+														let distance = (location.distanceFromLocation(CLLocation(latitude: self.location.latitude, longitude: self.location.longitude))/1000).format(".1")
+														self.uberButton.setTitle("Driver is \(distance)km away!", forState: UIControlState.Normal)
+														self.isDriverOnTheWay = true
+													}
+												}
+											}
+										}
+										else { print("Cannot find driver") }
+									})
+								}
+							}
+						}
+					}
+				}
+			})
+		}
+		
+		
 		map.removeAnnotation(riderAnnotation)
 		riderAnnotation.coordinate = coordinate
 		riderAnnotation.title = "You are here"
 		map.addAnnotation(riderAnnotation)
+		
+		if isDriverOnTheWay {
+			map.removeAnnotation(driverAnnotation)
+			driverAnnotation.coordinate = driverLocation
+			driverAnnotation.title = "Driver is here"
+			map.addAnnotation(driverAnnotation)
+		}
 	}
 	
 	func displayAlert(title:String, message:String){

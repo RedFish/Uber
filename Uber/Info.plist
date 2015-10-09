@@ -26,6 +26,10 @@
 	<string>So that rider can track your location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>So that your Uber driver can find you</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

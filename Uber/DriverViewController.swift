@@ -31,7 +31,6 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 	
     override func viewDidLoad() {
         super.viewDidLoad()
-		print("logged in as Driver")
 		
 		riderRequests = [RiderRequest()]
 		riderRequests.removeAll()
@@ -40,7 +39,7 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 		mapManager = CLLocationManager()
 		mapManager.delegate = self
 		mapManager.desiredAccuracy = kCLLocationAccuracyBest
-		mapManager.requestWhenInUseAuthorization()
+		mapManager.requestAlwaysAuthorization()
 		mapManager.startUpdatingLocation()
     }
 
@@ -81,7 +80,12 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 		//let coordinate = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude)
 		location = PFGeoPoint(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
 		
+		//update current location
+		PFUser.currentUser()?["driverLocation"] = self.location
+		PFUser.currentUser()!.saveInBackground()
+
 		
+		//refresh table
 		let query = PFQuery(className: "RiderRequest")
 		query.whereKey("location", nearGeoPoint: location, withinKilometers: 25)
 		query.orderByAscending("createdAt")

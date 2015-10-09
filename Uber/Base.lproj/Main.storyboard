@@ -201,10 +201,10 @@
                                 </constraints>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ixG-IV-EXU">
-                                <rect key="frame" x="110" y="564" width="154" height="35"/>
+                                <rect key="frame" x="60" y="564" width="254" height="35"/>
                                 <animations/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="154" id="017-go-l5B"/>
+                                    <constraint firstAttribute="width" constant="254" id="017-go-l5B"/>
                                     <constraint firstAttribute="height" constant="35" id="dxP-Pj-Eu6"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
