@@ -7,27 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D4A312531BC851960087FF8C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312521BC851960087FF8C /* Cell.swift */; settings = {ASSET_TAGS = (); }; };
-		D4A312551BC85FB30087FF8C /* ViewRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312541BC85FB30087FF8C /* ViewRequestViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		D4A312531BC851960087FF8C /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312521BC851960087FF8C /* Cell.swift */; };
+		D4A312551BC85FB30087FF8C /* ViewRequestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A312541BC85FB30087FF8C /* ViewRequestViewController.swift */; };
 		D4AD62841BC3028800F4D6C7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62831BC3028800F4D6C7 /* AppDelegate.swift */; };
 		D4AD62861BC3028800F4D6C7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62851BC3028800F4D6C7 /* ViewController.swift */; };
 		D4AD62891BC3028800F4D6C7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4AD62871BC3028800F4D6C7 /* Main.storyboard */; };
 		D4AD628B1BC3028800F4D6C7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4AD628A1BC3028800F4D6C7 /* Assets.xcassets */; };
 		D4AD628E1BC3028800F4D6C7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4AD628C1BC3028800F4D6C7 /* LaunchScreen.storyboard */; };
-		D4AD62981BC302CC00F4D6C7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62961BC302CC00F4D6C7 /* Bolts.framework */; settings = {ASSET_TAGS = (); }; };
-		D4AD62991BC302CC00F4D6C7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62971BC302CC00F4D6C7 /* Parse.framework */; settings = {ASSET_TAGS = (); }; };
+		D4AD62981BC302CC00F4D6C7 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62961BC302CC00F4D6C7 /* Bolts.framework */; };
+		D4AD62991BC302CC00F4D6C7 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62971BC302CC00F4D6C7 /* Parse.framework */; };
 		D4AD629B1BC302EE00F4D6C7 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD629A1BC302EE00F4D6C7 /* AudioToolbox.framework */; };
 		D4AD629D1BC302F700F4D6C7 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD629C1BC302F700F4D6C7 /* CFNetwork.framework */; };
 		D4AD629F1BC302FF00F4D6C7 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD629E1BC302FF00F4D6C7 /* CoreGraphics.framework */; };
 		D4AD62A11BC3030800F4D6C7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62A01BC3030800F4D6C7 /* CoreLocation.framework */; };
 		D4AD62A31BC3031000F4D6C7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62A21BC3031000F4D6C7 /* QuartzCore.framework */; };
 		D4AD62A51BC3031600F4D6C7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62A41BC3031600F4D6C7 /* Security.framework */; };
-		D4AD62A71BC3031E00F4D6C7 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62A61BC3031E00F4D6C7 /* StoreKit.framework */; };
 		D4AD62A91BC3032500F4D6C7 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62A81BC3032500F4D6C7 /* SystemConfiguration.framework */; };
 		D4AD62AB1BC3033300F4D6C7 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62AA1BC3033300F4D6C7 /* libz.tbd */; };
 		D4AD62AD1BC3033B00F4D6C7 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D4AD62AC1BC3033B00F4D6C7 /* libsqlite3.tbd */; };
-		D4AD62AF1BC3189300F4D6C7 /* RiderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62AE1BC3189300F4D6C7 /* RiderViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		D4AD62B11BC319BF00F4D6C7 /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62B01BC319BF00F4D6C7 /* DriverViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		D4AD62AF1BC3189300F4D6C7 /* RiderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62AE1BC3189300F4D6C7 /* RiderViewController.swift */; };
+		D4AD62B11BC319BF00F4D6C7 /* DriverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4AD62B01BC319BF00F4D6C7 /* DriverViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,7 +47,6 @@
 		D4AD62A01BC3030800F4D6C7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		D4AD62A21BC3031000F4D6C7 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		D4AD62A41BC3031600F4D6C7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		D4AD62A61BC3031E00F4D6C7 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D4AD62A81BC3032500F4D6C7 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		D4AD62AA1BC3033300F4D6C7 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		D4AD62AC1BC3033B00F4D6C7 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -64,7 +62,6 @@
 				D4AD62AD1BC3033B00F4D6C7 /* libsqlite3.tbd in Frameworks */,
 				D4AD62AB1BC3033300F4D6C7 /* libz.tbd in Frameworks */,
 				D4AD62A91BC3032500F4D6C7 /* SystemConfiguration.framework in Frameworks */,
-				D4AD62A71BC3031E00F4D6C7 /* StoreKit.framework in Frameworks */,
 				D4AD62A51BC3031600F4D6C7 /* Security.framework in Frameworks */,
 				D4AD62A31BC3031000F4D6C7 /* QuartzCore.framework in Frameworks */,
 				D4AD62A11BC3030800F4D6C7 /* CoreLocation.framework in Frameworks */,
@@ -119,7 +116,6 @@
 				D4AD62AC1BC3033B00F4D6C7 /* libsqlite3.tbd */,
 				D4AD62AA1BC3033300F4D6C7 /* libz.tbd */,
 				D4AD62A81BC3032500F4D6C7 /* SystemConfiguration.framework */,
-				D4AD62A61BC3031E00F4D6C7 /* StoreKit.framework */,
 				D4AD62A41BC3031600F4D6C7 /* Security.framework */,
 				D4AD62A21BC3031000F4D6C7 /* QuartzCore.framework */,
 				D4AD62A01BC3030800F4D6C7 /* CoreLocation.framework */,
@@ -163,9 +159,13 @@
 				TargetAttributes = {
 					D4AD627F1BC3028800F4D6C7 = {
 						CreatedOnToolsVersion = 7.0.1;
+						DevelopmentTeam = BDP2BDP9HM;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
+								enabled = 0;
 							};
 						};
 					};
