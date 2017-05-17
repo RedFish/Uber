@@ -30,10 +30,10 @@ class ViewRequestViewController: UIViewController, CLLocationManagerDelegate {
 		map.addAnnotation(riderAnnotation)
     }
 
-	@IBAction func pickUpRiderButtonAction(sender: AnyObject) {
+	@IBAction func pickUpRiderButtonAction(_ sender: AnyObject) {
 		let query = PFQuery(className: "RiderRequest")
 		query.whereKey("username", equalTo: request.username)
-		query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+		query.findObjectsInBackground(block: { (objects, error) -> Void in
 			if error != nil {
 				print("Error finding RiderRequest")
 			}
@@ -41,13 +41,13 @@ class ViewRequestViewController: UIViewController, CLLocationManagerDelegate {
 				if let objects = objects {
 					for object in objects {
 						let queryUpdate = PFQuery(className: "RiderRequest")
-						queryUpdate.getObjectInBackgroundWithId(object.objectId!, block: {(object:PFObject?, error:NSError?) -> Void in
+						queryUpdate.getObjectInBackground(withId: object.objectId!, block: {(object:PFObject?, error:Error?) -> Void in
 							if error != nil {
 								print("Error getting object RiderRequest")
 							}
 							else if let object = object{
 								//upadate db
-								object["driverResponded"] = PFUser.currentUser()?.username
+								object["driverResponded"] = PFUser.current()?.username
 								object.saveInBackground()
 								
 								//launch direction in maps
@@ -58,14 +58,13 @@ class ViewRequestViewController: UIViewController, CLLocationManagerDelegate {
 											let mapItem = MKMapItem(placemark: MKPlacemark(placemark:p))
 											mapItem.name = "Drive to this place to pick up \(self.request.username)"
 											let launchOptions = [MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving]
-											mapItem.openInMapsWithLaunchOptions(launchOptions)
+											mapItem.openInMaps(launchOptions: launchOptions)
 										}
 									}
 								})
 
 							}
 						})
-
 					}
 				}
 			}
