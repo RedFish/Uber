@@ -26,28 +26,28 @@ class ViewController: UIViewController, UITextFieldDelegate {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
-		`switch`.hidden = false
-		riderLabel.hidden = false
-		driverLabel.hidden = false
+		`switch`.isHidden = false
+		riderLabel.isHidden = false
+		driverLabel.isHidden = false
 		username.delegate = self
 		password.delegate = self
 	}
 
-	@IBAction func submitButtonAction(sender: AnyObject) {
+	@IBAction func submitButtonAction(_ sender: AnyObject) {
 		
 		if username.text == "" || password.text == "" {
 			displayAlert("Missing Field(s)", message: "Username and password are required")
 		}
 		else {
 			//start spinner
-			activityIndicator = UIActivityIndicatorView(frame: CGRectMake(0, 0, 50, 50))
+			activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
 			activityIndicator.center = self.view.center
 			activityIndicator.hidesWhenStopped = true
-			activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+			activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
 			view.addSubview(activityIndicator)
 			//ignore interaction events
 			activityIndicator.startAnimating()
-			UIApplication.sharedApplication().beginIgnoringInteractionEvents()
+			UIApplication.shared.beginIgnoringInteractionEvents()
 			
 			//set default error message
 			var errorMessage = "Please try again"
@@ -57,36 +57,35 @@ class ViewController: UIViewController, UITextFieldDelegate {
 				let user = PFUser()
 				user.username = username.text
 				user.password = password.text
-				user["isDriver"] = self.`switch`.on
-				
-				user.signUpInBackgroundWithBlock {
-					(succeeded: Bool, error: NSError?) -> Void in
-					//enable interaction events
-					self.activityIndicator.stopAnimating()
-					UIApplication.sharedApplication().endIgnoringInteractionEvents()
-					
-					if error != nil {
-						if let errorString = error!.userInfo["error"] as? String {
-							errorMessage = errorString
-						}
-						self.displayAlert("Failed to sign up", message: errorMessage)
-					} else {
-						self.displayAlert("Sign Up Succcess", message: "You can start using Uber")
-						self.password.text = ""
-						self.toggleButtonAction("")
-					}
-				}
+				user["isDriver"] = self.`switch`.isOn
+
+                user.signUpInBackground(block: {(succeeded, error) in
+                    //enable interaction events
+                    self.activityIndicator.stopAnimating()
+                    UIApplication.shared.endIgnoringInteractionEvents()
+                    
+                    if error != nil {
+                        if let errorString = (error as NSError?)?.userInfo["error"] as? String {
+                            errorMessage = errorString
+                        }
+                        self.displayAlert("Failed to sign up", message: errorMessage)
+                    } else {
+                        self.displayAlert("Sign Up Succcess", message: "You can start using Uber")
+                        self.password.text = ""
+                        self.toggleButtonAction(nil)
+                    }
+                })
 			}
 			else{
 				//login with parse
-				PFUser.logInWithUsernameInBackground(username.text!, password:password.text!) {
-					(user: PFUser?, error: NSError?) -> Void in
+				PFUser.logInWithUsername(inBackground: username.text!, password:password.text!) {
+					(user: PFUser?, error: Error?) -> Void in
 					//enable interaction events
 					self.activityIndicator.stopAnimating()
-					UIApplication.sharedApplication().endIgnoringInteractionEvents()
+					UIApplication.shared.endIgnoringInteractionEvents()
 					
 					if error != nil {//login failed
-						if let errorString = error!.userInfo["error"] as? String {
+						if let errorString = (error as NSError?)?.userInfo["error"] as? String {
 							errorMessage = errorString
 						}
 						self.displayAlert("Failed to login", message: errorMessage)
@@ -95,38 +94,38 @@ class ViewController: UIViewController, UITextFieldDelegate {
 						self.login()
 					}
 				}
-			}
+            }
 		}
 	}
 	
 	func login(){
-		if let isDriver = PFUser.currentUser()!["isDriver"] {
+		if let isDriver = PFUser.current()!["isDriver"] {
 			if isDriver as! Bool {
-				self.performSegueWithIdentifier("showDriverView", sender: self)
+				self.performSegue(withIdentifier: "showDriverView", sender: self)
 			}
 			else {
-				self.performSegueWithIdentifier("showRiderView", sender: self)
+				self.performSegue(withIdentifier: "showRiderView", sender: self)
 			}
 		}
 	}
 	
-	@IBAction func toggleButtonAction(sender: AnyObject) {
+	@IBAction func toggleButtonAction(_ sender: AnyObject?) {
 		isSignUpMode = !isSignUpMode
 		if isSignUpMode {
-			`switch`.hidden = false
-			riderLabel.hidden = false
-			driverLabel.hidden = false
+			`switch`.isHidden = false
+			riderLabel.isHidden = false
+			driverLabel.isHidden = false
 			questionLabel.text = "Already registered ?"
-			submitButton.setTitle("Sign Up", forState: UIControlState.Normal)
-			toggleButton.setTitle("login", forState: UIControlState.Normal)
+			submitButton.setTitle("Sign Up", for: UIControlState())
+			toggleButton.setTitle("login", for: UIControlState())
 		}
 		else {
-			`switch`.hidden = true
-			riderLabel.hidden = true
-			driverLabel.hidden = true
+			`switch`.isHidden = true
+			riderLabel.isHidden = true
+			driverLabel.isHidden = true
 			questionLabel.text = "Not registered yet ?"
-			submitButton.setTitle("Login", forState: UIControlState.Normal)
-			toggleButton.setTitle("sign up", forState: UIControlState.Normal)
+			submitButton.setTitle("Login", for: UIControlState())
+			toggleButton.setTitle("sign up", for: UIControlState())
 		}
 	}
 	
@@ -136,27 +135,27 @@ class ViewController: UIViewController, UITextFieldDelegate {
 		// Dispose of any resources that can be recreated.
 	}
 	
-	func displayAlert(title:String, message:String){
-		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-		alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-			self.dismissViewControllerAnimated(true, completion: nil)
+	func displayAlert(_ title:String, message:String){
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+			self.dismiss(animated: true, completion: nil)
 		}))
-		self.presentViewController(alert, animated: true, completion: nil)
+		self.present(alert, animated: true, completion: nil)
 	}
 
 	//Remove keyboard when touch ouside the keyboard
-	override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 		self.view.endEditing(true)
 	}
 	
 	//Remove keyboard when clic 'return'
-	func textFieldShouldReturn(textField: UITextField) -> Bool {
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder()
 		return true
 	}
 
-	override func viewDidAppear(animated: Bool) {
-		if let _ = PFUser.currentUser()?.username {
+	override func viewDidAppear(_ animated: Bool) {
+		if let _ = PFUser.current()?.username {
 			login()
 		}
 	}

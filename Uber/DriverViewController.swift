@@ -13,13 +13,13 @@ import MapKit
 struct RiderRequest {
 	var username = ""
 	var location = PFGeoPoint()
-	var date = NSDate()
+	var date = Date()
 }
 
 
 extension Double {
-	func format(f: String) -> String {
-		return NSString(format: "%\(f)f", self) as String
+	func format(_ f: String) -> String {
+		return NSString(format: "%\(f)f" as NSString, self) as String
 	}
 }
 
@@ -49,22 +49,22 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 	
 	// MARK: - Table view data source
 	
-	override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+	override func numberOfSections(in tableView: UITableView) -> Int {
 		// #warning Incomplete implementation, return the number of sections
 		return 1
 	}
 	
-	override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+	override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		// #warning Incomplete implementation, return the number of rows
 		return riderRequests.count
 	}
 	
 	
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! Cell
+	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+		let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! Cell
 		
 		cell.username.text = riderRequests[indexPath.row].username
-		let distance:Double = location.distanceInKilometersTo(riderRequests[indexPath.row].location)
+		let distance:Double = location.distanceInKilometers(to: riderRequests[indexPath.row].location)
 		let format = ".1"
 		cell.distance.text = "\(distance.format(format)) km"
 		let minutes = abs(Int(riderRequests[indexPath.row].date.timeIntervalSinceNow / 60))
@@ -74,23 +74,23 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 	}
 	
 	//Called every time the location is updated
-	func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		//Get the location
 		let userLocation:CLLocation = locations[0]
 		//let coordinate = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude)
 		location = PFGeoPoint(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
 		
 		//update current location
-		PFUser.currentUser()?["driverLocation"] = self.location
-		PFUser.currentUser()!.saveInBackground()
+		PFUser.current()?["driverLocation"] = self.location
+		PFUser.current()!.saveInBackground()
 
 		
 		//refresh table
 		let query = PFQuery(className: "RiderRequest")
 		query.whereKey("location", nearGeoPoint: location, withinKilometers: 25)
-		query.orderByAscending("createdAt")
+		query.order(byAscending: "createdAt")
 		query.limit = 10
-		query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+		query.findObjectsInBackground(block: { (objects, error) -> Void in
 			if error != nil {
 				print("Error finding RiderRequest")
 			}
@@ -106,20 +106,20 @@ class DriverViewController: UITableViewController, CLLocationManagerDelegate {
 						}
 					}
 					
-					self.riderRequests = self.riderRequests.sort({ $0.location.distanceInKilometersTo(self.location) < $1.location.distanceInKilometersTo(self.location) })
+					self.riderRequests = self.riderRequests.sorted(by: { $0.location.distanceInKilometers(to: self.location) < $1.location.distanceInKilometers(to: self.location) })
 					self.tableView.reloadData()
 				}
 			}
 		})
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "logoutDriver" {
 			PFUser.logOut()
-			navigationController?.setNavigationBarHidden(navigationController?.navigationBarHidden == false, animated: false)
+			navigationController?.setNavigationBarHidden(navigationController?.isNavigationBarHidden == false, animated: false)
 		}
 		else if segue.identifier == "showViewRequest" {
-			if let destination = segue.destinationViewController as? ViewRequestViewController {
+			if let destination = segue.destination as? ViewRequestViewController {
 				destination.request = riderRequests[(tableView.indexPathForSelectedRow?.row)!]
 			}
 		}

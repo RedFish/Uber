@@ -38,16 +38,16 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
         super.didReceiveMemoryWarning()
 		
     }
-	@IBAction func callUberButtonAction(sender: AnyObject) {
+	@IBAction func callUberButtonAction(_ sender: AnyObject) {
 		if !isCallingUber {
 			let riderRequest = PFObject(className: "RiderRequest")
-			riderRequest["username"] = PFUser.currentUser()?.username
+			riderRequest["username"] = PFUser.current()?.username
 			riderRequest["location"] = location
-			riderRequest.saveInBackgroundWithBlock { (succsess, error) -> Void in
+			riderRequest.saveInBackground { (succsess, error) -> Void in
 				if error == nil {
 					//Success
 					self.isCallingUber = true
-					self.uberButton.setTitle("Cancel Uber", forState: UIControlState.Normal)
+					self.uberButton.setTitle("Cancel Uber", for: UIControlState())
 				}
 				else {
 					self.displayAlert("Could not call Uber", message: "Try again later")
@@ -57,8 +57,8 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 		else {
 			//check if already followed
 			let query = PFQuery(className: "RiderRequest")
-			query.whereKey("username", equalTo: (PFUser.currentUser()?.username)!)
-			query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+			query.whereKey("username", equalTo: (PFUser.current()?.username)!)
+			query.findObjectsInBackground(block: { (objects, error) -> Void in
 				if error != nil {
 					print("Error finding RiderRequest")
 				}
@@ -70,19 +70,19 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 					}
 				}
 			})
-			self.uberButton.setTitle("Call an Uber", forState: UIControlState.Normal)
+			self.uberButton.setTitle("Call an Uber", for: UIControlState())
 			isCallingUber = false
 		}
 	}
 	
-	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == "logoutRider" {
 			PFUser.logOut()
 		}
 	}
 
 	//Called every time the location is updated
-	func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+	func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
 		//Get the location
 		let userLocation:CLLocation = locations[0]
 		let coordinate = CLLocationCoordinate2DMake(userLocation.coordinate.latitude, userLocation.coordinate.longitude)
@@ -101,8 +101,8 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 		//get location of driver
 		if isCallingUber {
 			let query = PFQuery(className: "RiderRequest")
-			query.whereKey("username", equalTo: (PFUser.currentUser()?.username)!)
-			query.findObjectsInBackgroundWithBlock({ (objects, error) -> Void in
+			query.whereKey("username", equalTo: (PFUser.current()?.username)!)
+			query.findObjectsInBackground(block: { (objects, error) -> Void in
 				if error != nil {
 					print("Error finding RiderRequest")
 				}
@@ -113,15 +113,15 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 								if let driverResponded = object["driverResponded"] as? String {
 									let queryUser = PFUser.query()
 									queryUser?.whereKey("username", equalTo: driverResponded)
-									queryUser?.findObjectsInBackgroundWithBlock({ (drivers, error) -> Void in
+									queryUser?.findObjectsInBackground(block: { (drivers, error) -> Void in
 										if error == nil {
 											if let drivers = drivers {
 												for driver in drivers {
 													if let driverLocation = driver["driverLocation"] as? PFGeoPoint {
 														let location = CLLocation(latitude: driverLocation.latitude, longitude: driverLocation.longitude)
 														self.driverLocation = CLLocationCoordinate2DMake(driverLocation.latitude, driverLocation.longitude)
-														let distance = (location.distanceFromLocation(CLLocation(latitude: self.location.latitude, longitude: self.location.longitude))/1000).format(".1")
-														self.uberButton.setTitle("Driver is \(distance)km away!", forState: UIControlState.Normal)
+														let distance = (location.distance(from: CLLocation(latitude: self.location.latitude, longitude: self.location.longitude))/1000).format(".1")
+														self.uberButton.setTitle("Driver is \(distance)km away!", for: UIControlState())
 														self.isDriverOnTheWay = true
 													}
 												}
@@ -151,11 +151,11 @@ class RiderViewController: UIViewController, CLLocationManagerDelegate {
 		}
 	}
 	
-	func displayAlert(title:String, message:String){
-		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.Alert)
-		alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
-			self.dismissViewControllerAnimated(true, completion: nil)
+	func displayAlert(_ title:String, message:String){
+		let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertControllerStyle.alert)
+		alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) -> Void in
+			self.dismiss(animated: true, completion: nil)
 		}))
-		self.presentViewController(alert, animated: true, completion: nil)
+		self.present(alert, animated: true, completion: nil)
 	}
 }
